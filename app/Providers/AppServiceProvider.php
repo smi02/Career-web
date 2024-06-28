@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         Model::preventLazyLoading();
 
         // Gate::define('edit-job', function (User $user, Info $job) {
-        //     return $job->employer->user->is($user);
+        //     return $job->company->user->is($user);
         // });
     }
 }

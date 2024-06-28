@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Mail\JobPoster;
+use App\Models\Comment;
+use App\Models\Company;
 use App\Models\Info;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,7 +16,8 @@ class InfoController extends Controller
 {
     public function index()
     {
-        $job = Info::with('employer')->cursorPaginate(5);
+        
+        $job = Info::with('user.company')->latest('id')->cursorPaginate(5);
         return view('jobs.jobs', [
             'jobs' => ($job)
         ]);
@@ -27,6 +30,7 @@ class InfoController extends Controller
 
     public function show(Info $job)
     {
+        $job = Info::with('comment.user')->find($job->id);
         return view('jobs.job', ['job' => $job]);
     }
 
@@ -36,15 +40,15 @@ class InfoController extends Controller
             'title' => ['required', 'min:3'],
             'salary' => ['required'],
         ]);
-        $emp = Auth::user()->employer[0]->id;
+        $user = Auth::user()->id;
 
         $job = Info::create([
             'title' => request('title'),
             'salary' => request('salary'),
-            'employer_id' => $emp
+            'user_id' => $user
         ]);
         
-        Mail::to($job->employer->user)->queue(new JobPoster($job));
+        //Mail::to($job->user)->queue(new JobPoster($job));
 
         return redirect('/jobs');
     }
@@ -80,5 +84,21 @@ class InfoController extends Controller
         Gate::authorize('edit', $job);
         $job->delete();
         return redirect('/jobs');
+    }
+
+    public function store_comment(Info $job)
+    {
+
+        $com = request()->validate([
+            'content' => ['required'],
+        ]);
+
+        $user = Auth::user();
+        $com['info_id'] = $job->id;
+        $com['user_id'] = $user->id;
+
+        Comment::create($com);
+
+        return redirect('/jobs/'.$job->id);
     }
 }

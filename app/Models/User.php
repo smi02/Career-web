@@ -11,9 +11,18 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
-    
-    public function employer() {
-        return $this->hasMany(Employer::class);
+    protected $table = 'users';
+
+    public function company() {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function job() {
+        return $this->hasMany(Info::class);
+    }
+
+    public function comment() {
+        return $this->hasMany(Comment::class);
     }
 
     /**

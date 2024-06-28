@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Comment;
 use App\Models\Info;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -13,6 +14,6 @@ class InfoSeeder extends Seeder
      */
     public function run(): void
     {
-        Info::factory(10)->create();
+        Comment::factory(10)->create();
     }
 }

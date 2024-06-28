@@ -1,26 +1,22 @@
-<x-layout>
-    <x-slot:heading>
-        Jobs Page
-    </x-slot:heading>
+<x-dash-board>
     <div class="relative overflow-x-auto">
         <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" class="px-6 py-3">Company</th>
-                    <th scope="col" class="px-6 py-3">Title</th>
-                    <th scope="col" class="px-6 py-3">Salary</th>
+                    <th scope="col" class="px-6 py-3">Name</th>
+                    <th scope="col" class="px-6 py-3">Hr</th>
                     <th scope="col" class="px-6 py-3">Operation</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($jobs as $item)
+                @foreach ($coms as $item)
                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
                         <td scope="row"
                             class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                            {{ $item->user->company->name_com }}</td>
-                        <td class="px-6 py-4">{{ $item['title'] }}</td>
-                        <td class="px-6 py-4">{{ $item['salary'] }}</td>
-                        <td class="px-6 py-4"><a href="jobs/{{ $item['id'] }}" class="
+                            {{ $item['name_com'] }}</td>
+                        <td class="px-6 py-4">{{ $item->user->count() }}</td>
+                        <td class="px-6 py-4"><a href="users/{{ $item['id'] }}"
+                                class="
                             py-2 px-5 me-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none 
                             bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 
                             focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 
@@ -31,6 +27,6 @@
                 @endforeach
             </tbody>
         </table>
-        <div class="my-5 mx-2">{{ $jobs->links() }}</div>
+        <div class="my-5 mx-2">{{ $coms->links() }}</div>
     </div>
-</x-layout>
+</x-dash-board>

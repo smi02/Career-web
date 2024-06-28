@@ -7,9 +7,12 @@ use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
 use App\Jobs\TranslateJob;
 use App\Mail\JobPoster;
-use App\Models\Employer;
+use App\Models\Company;
 use App\Models\Info;
 use App\Models\Job;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
@@ -32,24 +35,26 @@ Route::controller(InfoController::class)->group(function () {
         ->can('edit', 'job');
     Route::patch('jobs/{job}', 'update');
     Route::delete('jobs/{job}', 'destroy');
+
+    Route::post('/comment/{job}', 'store_comment');
+
 });
 
 // Route::resource('jobs', InfoController::class)->only(['index', 'show']);
 // Route::resource('jobs', InfoController::class)->except(['index', 'show'])->middleware('auth');
 
-// Employer
-Route::get('/employers', function () {
-    $emp = Employer::with('info')->cursorPaginate(5);
-    return view('jobs.employers', [
-        'emp' => $emp
+// Company
+Route::get('/companys', function () {
+    $com = Company::with('user.job')->cursorPaginate(5);
+    return view('jobs.companys', [
+        'com' => $com
     ]);
 });
 
-// Show Employer
-Route::get('employers/{id}', function ($id) {
-    $emp = Employer::find($id);
-    $employer = Employer::find($id)->info;
-    return view('jobs.employer', ['employer' => $employer, 'emp' => $emp]);
+// Show Company
+Route::get('companys/{id}', function ($id) {
+    $com = Company::find($id);
+    return view('jobs.company', ['com' => $com]);
 });
 
 // Register
@@ -61,9 +66,23 @@ Route::get('/login', [SessionController::class, 'create'])->name('login');
 Route::post('/login', [SessionController::class, 'store']);
 Route::post('/logout', [SessionController::class, 'destroy']);
 
+// Dashboard
+Route::get('/dashboard', function () {
+    $user = Auth::user();
+    if ($user->admin) {
+        return view('auth.dashboard');
+    } else {
+        abort(403);
+    }
+})->middleware('auth');
+
 // Profile
 Route::get('/profile', [ProfileController::class, 'index']);
+Route::get('/dashboard/user', [ProfileController::class, 'user']);
+Route::get('/dashboard/company', [ProfileController::class, 'company']);
+Route::get('/dashboard/job', [ProfileController::class, 'job']);
 
-// Contact
+
+// Contact:Comment
 Route::get('/contact', [ContactController::class, 'create']);
 Route::post('/contact', [ContactController::class, 'store']);

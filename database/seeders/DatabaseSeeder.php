@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Employer;
+use App\Models\Company;
 use App\Models\Info;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,15 +17,16 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => '12345'
+        Company::factory()->create([
+            'name_com' => 'Google',
         ]);
 
-        Employer::factory()->create([
-            'user_id' => '1',
-            'name_emp' => 'Google',
+        User::factory()->create([
+            'name' => 'Test User',
+            'company_id' => '1',
+            'admin' => true,
+            'email' => 'test@example.com',
+            'password' => '12345'
         ]);
 
         $this->call(InfoSeeder::class);

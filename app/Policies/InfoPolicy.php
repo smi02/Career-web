@@ -10,6 +10,9 @@ class InfoPolicy
 {
     public function edit(User $user, Info $job): bool
     {
-        return $job->employer->user->is($user);
+        if ($user->admin) {
+            return true;
+        }
+        return $job->user->is($user);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Employer;
+use App\Models\Company;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,17 +23,26 @@ class RegisteredUserController extends Controller
             'password'          => ['required', Password::min(4), 'confirmed'],
         ]);
 
-        $user = User::create($attributes);
+        $attributes['admin'] = false;
 
-        $emp = request()->validate([
-            'name_emp' => ['required'],
+        $com = request()->validate([
+            'name_com' => ['required'],
         ]);
-        $emp['user_id'] = $user->id;
+
+        $company = Company::where('name_com', $com['name_com'])->first();
+
+        if ($company) {
+            $attributes['company_id'] = $company->id;
+        } else {
+            Company::create($com);
+            $compa = Company::where('name_com', $com['name_com'])->first();
+            $attributes['company_id'] = $compa->id;
+        }
+
+        $user = User::create($attributes);
 
         Auth::login($user);
 
-        Employer::create($emp);
-        
         return redirect('/jobs');
     }
 }

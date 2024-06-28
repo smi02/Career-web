@@ -2,14 +2,13 @@
 
 namespace Database\Factories;
 
-use App\Models\Company;
-use App\Models\User;
+use App\Models\Info;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Comment>
  */
-class InfoFactory extends Factory
+class CommentFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -19,9 +18,9 @@ class InfoFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->jobTitle(),
-            'user_id' => User::factory(),
-            'salary' => '$1.000'
+            'content' => fake()->paragraph(),
+            'info_id' => Info::factory(),
+            'user_id' => fake()->numberBetween(1,10)
         ];
     }
 }

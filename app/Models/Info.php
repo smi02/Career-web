@@ -10,11 +10,16 @@ class Info extends Model
     use HasFactory;
     protected $table = 'infos';
     protected $guarded = [];
-    public function employer() {
-        return $this->belongsTo(Employer::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
-    public function tags() {
-        return $this->belongsToMany(Tag::class, foreignPivotKey : 'info_id');
+    public function comment()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class, foreignPivotKey: 'info_id');
     }
 }
-

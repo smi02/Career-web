@@ -23,8 +23,8 @@
                             <div class="ml-10 flex items-baseline space-x-4">
                                 <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                                 <x-navlink href="/" :active="request()->is('/')">Home</x-navlink>
-                                <x-navlink href="/jobs" :active="request()->is('jobs')">jobs</x-navlink>
-                                <x-navlink href="/employers" :active="request()->is('employers')">Employer</x-navlink>
+                                <x-navlink href="/jobs" :active="request()->is('jobs')">Jobs</x-navlink>
+                                <x-navlink href="/companys" :active="request()->is('companys')">Company</x-navlink>
                                 <x-navlink href="/contact" :active="request()->is('contact')">Contact</x-navlink>
                             </div>
                         </div>
@@ -39,15 +39,24 @@
                                 <x-navlink href="/register" :active="request()->is('register')">Register</x-navlink>
                             @endguest
                             @auth
+                            @if (auth()->user()->admin)
+                            <a href="/dashboard"
+                            class="flex flex-col max-w-36 font-semibold min-w-20 
+                         active:scale-95 h-9 overflow-hidden rounded-md text-white">
+                                <span class="flex items-center justify-between bg-indigo-600 px-2 py-1.5 hover:bg-indigo-500">
+                                    <p>Dashboard</p>
+                                </span>
+                        </a>
+                            @endif
                                 <a href="/profile"
-                                    class="flex flex-col max-w-36 font-semibold min-w-20
+                                    class="flex flex-col max-w-36 font-semibold min-w-20 
                                 transition active:scale-95 h-9 overflow-hidden rounded-md text-white">
                                     <div class="translate-y-0 transition hover:-translate-y-2/4">
-                                        <span class="flex items-center justify-between bg-indigo-600 px-2 py-1.5">
+                                        <span class="block text-center bg-indigo-600 px-2 py-1.5">
                                             <p>{{ auth()->user()->name }}</p>
                                         </span>
 
-                                        <span class="flex items-center justify-between bg-gray-400 px-2 py-1.5">
+                                        <span class="block text-center bg-gray-400 px-2 py-1.5">
                                             <p>Profile</p>
                                         </span>
                                     </div>
@@ -90,8 +99,8 @@
                         aria-current="page">Home</a>
                     <a href="/jobs"
                         class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">jobs</a>
-                    <a href="/employers"
-                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Employer</a>
+                    <a href="/companys"
+                        class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Company</a>
                     <a href="/contact"
                         class="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white">Contact</a>
 

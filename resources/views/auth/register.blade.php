@@ -23,10 +23,10 @@
                         </div>
                     </x-form-field>
                     <x-form-field>
-                        <x-form-label for="name_emp">Employer</x-form-label>
+                        <x-form-label for="name_com">Company</x-form-label>
                         <div class="mt-2">
-                            <x-form-input name="name_emp" id="name_emp" type='text' placeholder="Google" />
-                            <x-form-error name='name_emp' />
+                            <x-form-input name="name_com" id="name_com" type='text' placeholder="Google" />
+                            <x-form-error name='name_com' />
                         </div>
                     </x-form-field>
                     <x-form-field>
