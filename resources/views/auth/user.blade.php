@@ -26,6 +26,15 @@
                         <form action="/dashboard/user/{{ $item['id'] }}" method="POST">
                             @csrf
                             @method('DELETE')
+                            @if ($item['admin'])
+                            <td class="px-6 py-4"><button disabled class="
+                                py-2 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none 
+                                bg-gray-500 rounded-lg border border-gray-200 cursor-not-allowed
+                                focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 
+                                dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                    delete
+                                </button></td>
+                            @else
                             <td class="px-6 py-4"><button class="
                                 py-2 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none 
                                 bg-red-500 rounded-lg border border-gray-200 hover:bg-red-300
@@ -33,6 +42,7 @@
                                 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                                     delete
                                 </button></td>
+                            @endif
                         </form>
                     </tr>
                 @endforeach

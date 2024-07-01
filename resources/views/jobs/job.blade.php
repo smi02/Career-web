@@ -27,13 +27,15 @@
                     <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
                         <p class="text-sm leading-6 text-gray-900">{{ $item->user->email }}</p>
                         <p class="mt-1 whitespace-pre-wrap text-xs leading-5 text-gray-500 ml-5">{{ $item->created_at->format('H:i | d/m/Y') }}</p>
-                        @if ($item->user_id === $user->id || $user->admin)
-                            <form action="/comment/{{$item->id}}/{{ $job->id }}" method="POST">
-                                @csrf
-                                @method('DELETE')
-                                <x-form-button id="submit">delete</x-form-button>
-                            </form>
-                        @endif
+                        @auth
+                            @if ($item->user_id === $user->id || $user->admin)
+                                <form action="/comment/{{ $item->id }}/{{ $job->id }}" method="POST">
+                                    @csrf
+                                    @method('DELETE')
+                                    <x-form-button id="submit">delete</x-form-button>
+                                </form>
+                            @endif
+                        @endauth
                     </div>
                 </li>
             @endforeach

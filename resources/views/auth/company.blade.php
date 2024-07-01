@@ -18,14 +18,25 @@
                         <form action="/dashboard/company/{{ $item['id'] }}" method="POST">
                             @csrf
                             @method('DELETE')
+                            @if ($item['name_com'] === auth()->user()->company->name_com)
+                            <td class="px-6 py-4"><button disabled
+                                class=" cursor-not-allowed
+                py-2 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none 
+                bg-gray-500 rounded-lg border border-gray-200
+                focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 
+                dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                delete
+                            </button></td>
+                            @else
                             <td class="px-6 py-4"><button
-                                    class="
-                            py-2 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none 
-                            bg-red-500 rounded-lg border border-gray-200 hover:bg-red-300
-                            focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 
-                            dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
-                                    delete
-                                </button></td>
+                                class="
+                py-2 px-5 me-2 mb-2 text-sm font-medium text-white focus:outline-none 
+                bg-red-500 rounded-lg border border-gray-200 hover:bg-red-300
+                focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 
+                dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                                delete
+                            </button></td>
+                            @endif
                         </form>
                     </tr>
                 @endforeach
