@@ -37,6 +37,8 @@ Route::controller(InfoController::class)->group(function () {
     Route::delete('jobs/{job}', 'destroy');
 
     Route::post('/comment/{job}', 'store_comment');
+    Route::delete('/comment/{comment}/{job}', 'destroy_comment');
+
 
 });
 
@@ -79,7 +81,9 @@ Route::get('/dashboard', function () {
 // Profile
 Route::get('/profile', [ProfileController::class, 'index']);
 Route::get('/dashboard/user', [ProfileController::class, 'user']);
+Route::delete('/dashboard/user/{user}', [ProfileController::class, 'destroy_user']);
 Route::get('/dashboard/company', [ProfileController::class, 'company']);
+Route::delete('/dashboard/company/{company}', [ProfileController::class, 'destroy_company']);
 Route::get('/dashboard/job', [ProfileController::class, 'job']);
 
 

@@ -3,6 +3,7 @@
 
     <div class="bg-white px-5 py-5">
         <h2 class="font-bold text-lg">{{ $job->title }}</h2>
+        <h2 class="text-lg">Hr: {{ $job->user->name }}</h2>
         <p>This job pays {{ $job->salary }} per year.</p>
         @can('edit', $job)
             <p class="mt-6">
@@ -26,6 +27,13 @@
                     <div class="hidden shrink-0 sm:flex sm:flex-col sm:items-end">
                         <p class="text-sm leading-6 text-gray-900">{{ $item->user->email }}</p>
                         <p class="mt-1 whitespace-pre-wrap text-xs leading-5 text-gray-500 ml-5">{{ $item->created_at->format('H:i | d/m/Y') }}</p>
+                        @if ($item->user_id === $user->id || $user->admin)
+                            <form action="/comment/{{$item->id}}/{{ $job->id }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <x-form-button id="submit">delete</x-form-button>
+                            </form>
+                        @endif
                     </div>
                 </li>
             @endforeach
@@ -36,7 +44,7 @@
                         @csrf
                         <div class="flex min-w-0 gap-x-4 items-end">
                             <textarea class="px-3 py-3 rounded-md bg-gray-200 focus:bg-gray-100" name="content" id="content" cols="100"
-                                rows="4" placeholder="write 1 comment ..."></textarea>
+                                rows="4" placeholder="write a comment ..."></textarea>
                             <x-form-button class="h-12" id="submit">Comment 🚀</x-form-button>
                         </div>
                     </form>

@@ -20,11 +20,21 @@ class ProfileController extends Controller
         ]);
     }
 
+    public function destroy_user(User $user) {
+        $user->delete();
+        return redirect('/dashboard/user');
+    }
+
     public function company() {
         $coms = Company::with('user')->cursorPaginate(5);
         return view('auth.company', [
             'coms' => ($coms)
         ]);
+    }
+
+    public function destroy_company(Company $company) {
+        $company->delete();
+        return redirect('/dashboard/company');
     }
 
     public function job() {

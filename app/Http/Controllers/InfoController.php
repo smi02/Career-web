@@ -16,7 +16,7 @@ class InfoController extends Controller
 {
     public function index()
     {
-        
+
         $job = Info::with('user.company')->latest('id')->cursorPaginate(5);
         return view('jobs.jobs', [
             'jobs' => ($job)
@@ -31,7 +31,8 @@ class InfoController extends Controller
     public function show(Info $job)
     {
         $job = Info::with('comment.user')->find($job->id);
-        return view('jobs.job', ['job' => $job]);
+        $user = auth()->user();
+        return view('jobs.job', ['job' => $job, 'user' => $user]);
     }
 
     public function store()
@@ -47,7 +48,7 @@ class InfoController extends Controller
             'salary' => request('salary'),
             'user_id' => $user
         ]);
-        
+
         //Mail::to($job->user)->queue(new JobPoster($job));
 
         return redirect('/jobs');
@@ -99,6 +100,12 @@ class InfoController extends Controller
 
         Comment::create($com);
 
-        return redirect('/jobs/'.$job->id);
+        return redirect('/jobs/' . $job->id);
+    }
+
+    public function destroy_comment(Comment $comment, Info $job)
+    {
+        $comment->delete();
+        return redirect('/jobs/'. $job->id);
     }
 }
