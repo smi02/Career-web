@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Info;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Support\Facades\Auth;
 
 class InfoPolicy
 {
@@ -16,4 +17,5 @@ class InfoPolicy
         }
         return $job->user->is($user);
     }
+
 }

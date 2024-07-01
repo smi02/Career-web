@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('test', function () {
     $job = Info::first();
     TranslateJob::dispatch($job);
-    return 'Done'; 
+    return 'Done';
 });
 
 Route::view('/', 'welcome');
@@ -38,8 +38,6 @@ Route::controller(InfoController::class)->group(function () {
 
     Route::post('/comment/{job}', 'store_comment');
     Route::delete('/comment/{comment}/{job}', 'destroy_comment');
-
-
 });
 
 // Route::resource('jobs', InfoController::class)->only(['index', 'show']);
@@ -79,12 +77,15 @@ Route::get('/dashboard', function () {
 })->middleware('auth');
 
 // Profile
-Route::get('/profile', [ProfileController::class, 'index']);
-Route::get('/dashboard/user', [ProfileController::class, 'user']);
-Route::delete('/dashboard/user/{user}', [ProfileController::class, 'destroy_user']);
-Route::get('/dashboard/company', [ProfileController::class, 'company']);
-Route::delete('/dashboard/company/{company}', [ProfileController::class, 'destroy_company']);
-Route::get('/dashboard/job', [ProfileController::class, 'job']);
+Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
+Route::get('/profile/{user}/edit', [ProfileController::class, 'profile_edit'])->middleware('auth');
+Route::patch('/profile/{user}', [ProfileController::class, 'profile_patch'])->middleware('auth');
+Route::delete('/profile/{user}', [ProfileController::class, 'profile_delete'])->middleware('auth');
+Route::get('/dashboard/user', [ProfileController::class, 'user'])->middleware('auth');
+Route::delete('/dashboard/user/{user}', [ProfileController::class, 'destroy_user'])->middleware('auth');
+Route::get('/dashboard/company', [ProfileController::class, 'company'])->middleware('auth');
+Route::delete('/dashboard/company/{company}', [ProfileController::class, 'destroy_company'])->middleware('auth');
+Route::get('/dashboard/job', [ProfileController::class, 'job'])->middleware('auth');
 
 
 // Contact:Comment
